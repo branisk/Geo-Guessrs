@@ -25,6 +25,9 @@ import time
 import download_jpegs_kartaview
 import download_jpegs_mapillary
 from pathlib import Path
+from dotenv import find_dotenv, load_dotenv
+
+load_dotenv(find_dotenv())
 
 def check_id(image_folder):
     ids = set()
@@ -44,12 +47,14 @@ if __name__ == '__main__':
     mly.set_access_token(access_token)
 
     # Update in_csvPath and out_jpegFolder to suit your needs
-    in_csvPath = 'points.csv' # input csv
-    out_mainFolder = './sample_output/all' # output folder to store the downloaded images
+    in_csvPath = '../data/imgs/sampled.csv' # input csv
+    out_mainFolder = '../data/imgs' # output folder to store the downloaded images
     Path(out_mainFolder).mkdir(parents=True, exist_ok=True)
 
     data_l = pd.read_csv(in_csvPath).reset_index(drop=True)
-    data_l = pd.concat([data_l[data_l['source']=='Mapillary'].sample(n=25, random_state=0), data_l[data_l['source']=='KartaView'].sample(n=25, random_state=0)], ignore_index=True) # sample 50 images to download just for illustration purpose
+    
+    # Alternative, sample a subset
+    #data_l = pd.concat([data_l[data_l['source']=='Mapillary'].sample(n=25, random_state=0), data_l[data_l['source']=='KartaView'].sample(n=25, random_state=0)], ignore_index=True) # sample 50 images to download just for illustration purpose
 
     # increase or decrease this number to suit your need and your computer's performance
     num_thread = 100
@@ -87,7 +92,7 @@ if __name__ == '__main__':
             if uuid in already_id:
                 continue
 
-            if os.path.exists(os.path.join(out_mainFolder, out_subFolder)) == False:
+            if not os.path.exists(os.path.join(out_mainFolder, out_subFolder)):
                 os.mkdir(os.path.join(out_mainFolder, out_subFolder))
             dst_path = os.path.join(
                 out_mainFolder, out_subFolder, uuid + '.jpeg')
