@@ -1,33 +1,66 @@
 # Geo-Guessrs
 
-## Data
-Homepage: https://ual.sg/project/global-streetscapes/
-Dataset: https://huggingface.co/datasets/NUS-UAL/global-streetscapes
-Metadata Tables: https://huggingface.co/datasets/NUS-UAL/global-streetscapes/tree/main/data
-Repository: https://github.com/ualsg/global-streetscapes?tab=readme-ov-file
-Download Instructions: https://github.com/ualsg/global-streetscapes/wiki/2-Download-images
+A project using the Global Streetscapes dataset for geographic guessing games.
 
-Latitude: -90 -> 90
-Longitude: -180 -> 180
+## Quick Links
 
-## Development
+- **Homepage**: https://ual.sg/project/global-streetscapes/
+- **Dataset**: https://huggingface.co/datasets/NUS-UAL/global-streetscapes
+- **Metadata**: https://huggingface.co/datasets/NUS-UAL/global-streetscapes/tree/main/data
+- **Code Repository**: https://github.com/ualsg/global-streetscapes?tab=readme-ov-file
 
-Before any of the following steps, first create a virtual environment in the main directory and install the required packages. (For linux)
+## About the Dataset
+
+Global Streetscapes provides 10 million street-level images from 688 cities worldwide, enriched with 300+ attributes including geographic, temporal, and contextual metadata.
+
+**Coordinate Ranges:**
+- Latitude: -90 to 90
+- Longitude: -180 to 180
+
+## Setup
+
+### 1. Install Dependencies
+
+Create a virtual environment and install required packages:
+
+```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+```
 
-### Creating an access token
+### 2. Configure Mapillary Access
 
+Create an environment file for your API token:
+
+```bash
 echo "MAPILLARY_ACCESS_TOKEN = ''" > download/.env
-Obtain an access token by logging in to https://www.mapillary.com/app/, and navigating to https://www.mapillary.com/dashboard/developers and pressing "View" corresponding to "Acess Token".
-Add this token to the previously created file at download/.env
+```
 
-### Downloading the sampled dataset
+Get your token:
+1. Log in at https://www.mapillary.com/app/
+2. Go to https://www.mapillary.com/dashboard/developers
+3. Click "View" next to "Access Token"
+4. Paste the token into `download/.env`
 
-First, download the required files and place them in the /data directory. These files are 1.6GB and 1.16GB respectively.
-- https://huggingface.co/datasets/NUS-UAL/global-streetscapes/resolve/main/data/simplemaps.csv?download=true
-- https://huggingface.co/datasets/NUS-UAL/global-streetscapes/resolve/main/data/contextual.csv?download=true
+### 3. Download Dataset Files
 
-Next, open and run the notebook /download/subset_download.ipynb. This creates the sample metadata file /data/imgs/sampled.csv.
-Finally, navigate to /download and run download_jpegs.py. This will download the images to data/imgs, 10,000 images per bucket.
+Download these two files (2.76GB total) and place them in the `/data` directory:
+
+- simplemaps.csv (1.6GB): https://huggingface.co/datasets/NUS-UAL/global-streetscapes/resolve/main/data/simplemaps.csv?download=true
+- contextual.csv (1.16GB): https://huggingface.co/datasets/NUS-UAL/global-streetscapes/resolve/main/data/contextual.csv?download=true
+
+### 4. Sample and Download Images
+
+**Create sample metadata:**
+1. Open `/download/subset_download.ipynb`
+2. Run all cells to generate `/data/imgs/sampled.csv`
+
+**Download images:**
+
+```bash
+cd download
+python download_jpegs.py
+```
+
+Images will be saved to `/data/imgs` in buckets of 10,000 images each.
