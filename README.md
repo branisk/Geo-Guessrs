@@ -11,7 +11,7 @@ A project using the Global Streetscapes dataset for geographic guessing games.
 
 ## About the Dataset
 
-Global Streetscapes provides 10 million street-level images from 688 cities worldwide, enriched with 300+ attributes including geographic, temporal, and contextual metadata.
+A comprehensive dataset of 10 million street-level images across 688 cities for urban science and analytics.
 
 **Coordinate Ranges:**
 - Latitude: -90 to 90
@@ -64,3 +64,23 @@ python download_jpegs.py
 ```
 
 Images will be saved to `/data/imgs` in buckets of 10,000 images each.
+
+### 5. Save the image paths
+
+1. Open `/data/get_img_paths.ipynb`
+2. Run all cells to generate `/data/img_paths.csv`
+
+This file will be used during training and inference to find image paths
+
+### 6. Create labels using Adaptive Partitioning
+
+The primary paper outlining this partitioning can be found below in section 3 labeled "Adaptive Partitioning using S2 Cells":
+- https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45488.pdf
+
+1. Open `/data/adaptive_partition.ipynb`
+2. Run all cells to save cell labels `/data/imgs/sampled.csv`
+
+## Training
+
+Sample code for loading data, training, and inference can be found at `/models/vit_b_16_base`.
+Each iteration of the training epoch will save a pth file in the same directory.

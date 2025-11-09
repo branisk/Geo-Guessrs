@@ -207,4 +207,11 @@ marimo/_lsp/
 __marimo__/
 
 # Data
-/data
+/data/contextual.csv
+/data/img_paths.csv
+/data/points.csv
+/data/simplemaps.csv
+/data/imgs
+
+# Model files
+*.pth
