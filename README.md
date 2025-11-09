@@ -1,17 +1,11 @@
 # Geo-Guessrs
 
-A project using the Global Streetscapes dataset for geographic guessing games.
-
 ## Quick Links
 
 - **Homepage**: https://ual.sg/project/global-streetscapes/
 - **Dataset**: https://huggingface.co/datasets/NUS-UAL/global-streetscapes
 - **Metadata**: https://huggingface.co/datasets/NUS-UAL/global-streetscapes/tree/main/data
 - **Code Repository**: https://github.com/ualsg/global-streetscapes?tab=readme-ov-file
-
-## About the Dataset
-
-A comprehensive dataset of 10 million street-level images across 688 cities for urban science and analytics.
 
 **Coordinate Ranges:**
 - Latitude: -90 to 90
