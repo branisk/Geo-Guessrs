@@ -13,7 +13,7 @@
 
 ## Setup
 
-### 1. Install Dependencies
+### 1. Local setup (using venv)
 
 Create a virtual environment and install required packages:
 
@@ -22,6 +22,33 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+
+### 1. Run Pod setup (using conda)
+
+#### A. Set up pod
+
+1. Create a volume in the MTL region
+2. Use the following pod template: Runpod Pytorch 2.4.0 runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04
+3. Connect the pod to the volume, pick the A40 GPU
+
+#### B Set up conda
+1. cd /workspace
+2. wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+3. bash Miniconda3-latest-Linux-x86_64.sh
+4. Tell the installer wizard to install conda in /workspace/miniconda
+5. When asked whether to update your shell profile to automatically initialize conda, say no.
+6. `source /workspace/miniconda/etc/profile.d/conda.sh`
+7. `conda env create -f environment.yaml`
+8. `conda init`
+9. `conda activate geoguessr`
+10. Register the conda kernel `python -m ipykernel install --user --name geoguessr --display-name "Python (geoguessr)"`
+
+#### C Each time you initialize a pod
+1. `source /workspace/miniconda/etc/profile.d/conda.sh`
+2. `conda activate geoguessr`
+3. Register the conda kernel `python -m ipykernel install --user --name geoguessr --display-name "Python (geoguessr)"`
+4. `jupyter kernelspec list`
+5. `git config --global credential.helper store`
 
 ### 2. Configure Mapillary Access
 

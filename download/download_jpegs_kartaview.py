@@ -18,7 +18,7 @@ import requests
 from pathlib import Path
 
 def get_image_url(image_id):
-    url = f'https://api.openstreetcam.org/2.0/photo/?id={image_id}'
+    url = f'https://api.openstreetcam.org/2.0/photo/?id={str(int(image_id))}'
     try:
         r = requests.get(url, timeout=None)
         while r.status_code != 200:
@@ -29,9 +29,9 @@ def get_image_url(image_id):
             image_url = data['fileurlProc']
             return image_url
         except Exception as e:
-            print('network error', e)
+            print('network error', e, 'happened in kartaview with image_id:', image_id)
     except urllib.error.URLError as e:
-        print('network error', e)
+        print('network error', e, 'happened in kartaview with image_id:', image_id)
 
 
 def download_image_from_url(url, dst_path):
@@ -43,7 +43,7 @@ def download_image_from_url(url, dst_path):
             with open(dst_path, mode='wb') as local_file:
                 local_file.write(data)
     except Exception as e:
-        print('network error', e)
+        print('network error', e, 'happened in kartaview with url:', url, "and dst_path:", dst_path)
 
 
 def download_image(image_id, dst_path):

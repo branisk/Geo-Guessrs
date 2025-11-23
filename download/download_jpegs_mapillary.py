@@ -24,7 +24,7 @@ def download_image_from_url(image_url, dst_path):
             with open(dst_path, mode='wb') as local_file:
                 local_file.write(data)
     except urllib.error.URLError as e:
-        print('network error', e)
+        print('network error', e, 'happened in mapillary with image_url:', image_url, "and dst_path:", dst_path)
 
 
 def get_image_url(image_id):
@@ -34,12 +34,12 @@ def get_image_url(image_id):
     try:
         random_t = random.randint(1, 10)/10
         time.sleep(random_t)
-        image_url = mly.image_thumbnail(image_id, 2048)
+        image_url = mly.image_thumbnail(str(int(image_id)), 2048)
         return image_url
         # print('Successed')
         # return os.path.basename(url_2048)
     except Exception as e:
-        print('network error', e)
+        print('network error', e, 'happened in mapillary with image_id:', image_id)
 
 
 def download_image(image_id, dst_path):
