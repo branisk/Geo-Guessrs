@@ -21,6 +21,10 @@ df_contextual = pd.read_csv("../data/contextual.csv")
 df_subset_merged = df_subset.merge(df_contextual, on=["uuid", "source", "orig_id"])
 df_subset_merged['count_per_country'] = df_subset_merged.groupby("country").transform("size")
 
+# add int city label
+city_to_int = {city: i for i, city in enumerate(sorted(cities))}
+df_subset_merged["label"] = df_subset_merged["city"].map(city_to_int).astype("int64")
+
 # keep the three required columns
 df_to_download = df_subset_merged[["uuid", "source", "orig_id", "city_lat", "city_lon", "city", "country", "count_per_country", "iso3"]]
 # save the file
