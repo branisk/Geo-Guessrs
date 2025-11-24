@@ -10,7 +10,7 @@ cities = ["Kuala Lumpur", "Berlin", "Washington", "Budapest", "Taipei"]
 sample_size = 10000 # per city
 df_subset = pd.DataFrame().reindex_like(df_all)
 for city in cities:
-    df_sample = df_all[df_all["city"] == city].sample(sample_size, replace=False)
+    df_sample = df_all[df_all["city"] == city].sample(sample_size, replace=False, random_state=42)
     df_subset = pd.concat([df_subset, df_sample], ignore_index=True)
 
 # load contextual information
@@ -22,6 +22,6 @@ df_subset_merged = df_subset.merge(df_contextual, on=["uuid", "source", "orig_id
 df_subset_merged['count_per_country'] = df_subset_merged.groupby("country").transform("size")
 
 # keep the three required columns
-df_to_download = df_subset_merged[["uuid", "source", "orig_id", "city_lat", "city_lon", "country", "count_per_country", "iso3"]]
+df_to_download = df_subset_merged[["uuid", "source", "orig_id", "city_lat", "city_lon", "city", "country", "count_per_country", "iso3"]]
 # save the file
 df_to_download.to_csv("../data/imgs/sampled.csv")
