@@ -5,4 +5,5 @@ python subset_download.py
 python download_jpegs.py
 python download_mly_points.py
 python get_img_paths.py
+python adaptive_partition.py
 cd ..
