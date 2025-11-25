@@ -96,12 +96,12 @@ if __name__ == '__main__':
 
         for _, values in df.iterrows():
 
-            uuid = values['uuid']
-            if uuid in already_id:
+            image_uuid = values['uuid']
+            if image_uuid in already_id:
                 continue
 
             dst_path = os.path.join(
-                out_mainFolder, out_subFolder, uuid + '.jpeg')
+                out_mainFolder, out_subFolder, image_uuid + '.jpeg')
             image_id = values['orig_id']
             source = values['source']
             index += 1
