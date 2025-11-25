@@ -26,6 +26,7 @@ import download_jpegs_kartaview
 import download_jpegs_mapillary
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
+import uuid
 
 load_dotenv(find_dotenv())
 
@@ -41,6 +42,14 @@ def check_id(image_folder):
         print('Found', count, 'images in', subdir)
     return ids
 
+def create_chunk_folder(base_folder):
+    """
+    Creates a new unique subfolder using a GUID.
+    Returns: subfolder_name (string)
+    """
+    new_folder = str(uuid.uuid4())
+    os.mkdir(os.path.join(base_folder, new_folder))
+    return new_folder
 
 if __name__ == '__main__':
     access_token = os.getenv('MAPILLARY_ACCESS_TOKEN') # update your mapillary access token
@@ -79,9 +88,8 @@ if __name__ == '__main__':
 
     for df in ls_df:
 
-        start = df.index[0]+1
-        end = df.index[-1]+1
-        out_subFolder = f"{start}_{end}"
+        out_subFolder = create_chunk_folder(out_mainFolder)
+
         threads = []
 
         index = 0
@@ -92,8 +100,6 @@ if __name__ == '__main__':
             if uuid in already_id:
                 continue
 
-            if not os.path.exists(os.path.join(out_mainFolder, out_subFolder)):
-                os.mkdir(os.path.join(out_mainFolder, out_subFolder))
             dst_path = os.path.join(
                 out_mainFolder, out_subFolder, uuid + '.jpeg')
             image_id = values['orig_id']
