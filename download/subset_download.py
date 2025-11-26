@@ -6,8 +6,8 @@ df_all = pd.read_csv(
     "../data/simplemaps.csv"
 )  # update the location of the desired csv file
 
-cities = ["Kuala Lumpur", "Berlin", "Washington", "Budapest", "Taipei"]
-sample_size = 10000 # per city
+cities = ["Washington"]
+sample_size = 200000 # per city
 df_subset = pd.DataFrame().reindex_like(df_all)
 for city in cities:
     df_sample = df_all[df_all["city"] == city].sample(sample_size, replace=False, random_state=42)

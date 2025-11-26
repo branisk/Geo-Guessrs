@@ -108,7 +108,7 @@ if __name__ == '__main__':
     # for each of your chosen cities, find its ID from data/worldcities.csv.
     # remember to check the country information to make sure it's the city you want, as different cities can share the same name, e.g. 'San Francisco'.
     # the below city ids correspond to 'New York'
-    targets = [1458988644, 1276451290, 1840021093, 1348611435, 1158987347] # please modify as needed
+    targets = [1840006060] # please modify as needed
 
     start_date = None#'2024-04-01' # start date to download data - please modify as needed (start_date=None indicates download from the earliest available image)
     end_date = None # end date to download data - please modify as needed (end_date=None indicates download until the latest available image)
