@@ -63,18 +63,21 @@ def get_bbox(lat, lon, zoom):
     return [w, n, e, s]
 
 
-def get_data_from_url(url):
+def get_data_from_url(url, max_retries=5):
     """
     Download data from url and return in json
     """
     try:
-        timeout_count = 0
-        r = requests.get(url, timeout=None)
+        retry_count = 0
+        r = requests.get(url, timeout=30)
         while r.status_code != 200:
-            timeout_count += 1  # update the number of timeouts
-            # print timeout information
-            print(f'timeout count: {timeout_count}, url: {url}')
-            r = requests.get(url, timeout=None)  # try again
+            retry_count += 1  # update the number of retries
+            if retry_count >= max_retries:
+                print(f'===> max retries ({max_retries}) reached, skipping url: {url}')
+                return None
+            # print retry information
+            print(f'retry count: {retry_count}/{max_retries}, url: {url}')
+            r = requests.get(url, timeout=30)  # try again
 
         if r.json()['status']['apiCode'] == 600:
             data = r.json()['result']['data']  # get a JSON format of the response
@@ -100,14 +103,28 @@ def data_to_dataframe(data):
 
 def check_id(save_folder):
     """
-    Check the save directory for any cities that have already been downloaded to skip download for them.
+    Return a set of city IDs inferred from existing CSV filenames.
+    Filenames must follow the pattern <city_ascii>_<city_id>.csv,
+    but the function safely skips anything that does not match.
     """
     ids = set()
     for name in os.listdir(save_folder):
-        if name != '.DS_Store':
-            ids.add(name.split('_')[1].split('.')[0])
-    return ids
+        # must be a CSV file
+        if not name.endswith('.csv'):
+            continue
 
+        parts = name.split('_')
+        # filename must be exactly "<something>_<id>.csv"
+        if len(parts) != 2:
+            continue
+
+        id_part = parts[1].replace('.csv', '')
+
+        # ensure ID is numeric
+        if id_part.isdigit():
+            ids.add(id_part)
+
+    return ids
 
 def download_points_for_sequence(seq, ls, bbox):
     """
@@ -161,8 +178,8 @@ def download_sequences_for_city(lat, lng, zoom):
         return df
 
 def filter_date(df, start_date, end_date):
-    # create a temporary column date from shotDate (%Y-%m-%d %H:%M:%S)
-    df["date"] = pd.to_datetime(df["shotDate"], format='%Y-%m-%d %H:%M:%S')
+    # create a temporary column date from shotDate (ISO8601 format to handle varying precision)
+    df["date"] = pd.to_datetime(df["shotDate"], format='ISO8601')
     # check if start_date and end_date are in the correct format with regex. If not, raise error
     if start_date is not None:
         try:
@@ -250,17 +267,17 @@ if __name__ == '__main__':
     # for each of your chosen cities, find its ID from data/worldcities.csv.
     # remember to check the country information to make sure it's the city you want, as different cities can share the same name, e.g. 'San Francisco'.
     # the below city ids correspond to 'Singapore', 'Stuttgart'.
-    targets = [1458988644, 1276451290, 1840021093, 1348611435, 1158987347] # please modify as needed
+    targets = [1840006060] # please modify as needed
 
     start_date = '2024-04-01' # start date to download data - please modify as needed (start_date=None indicates download from the earliest available image)
     end_date = None # end date to download data - please modify as needed (end_date=None indicates download until the latest available image)
 
     # directory to save the downloaded data
-    save_folder = Path(__file__).parent / 'sample_output/kv' # please modify as needed
+    save_folder = Path(__file__).parent / '../data' # please modify as needed
     Path(save_folder).mkdir(parents=True, exist_ok=True)
 
     # import the simplemaps worldcities database to get city centre for data download
-    wc = pd.read_csv(Path(__file__).parent / 'data/worldcities.csv') # please modify as needed
+    wc = pd.read_csv(Path(__file__).parent / '../data/worldcities.csv') # please modify as needed
 
     already_id = check_id(save_folder)
     total = len(targets)

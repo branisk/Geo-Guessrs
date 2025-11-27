@@ -16,9 +16,12 @@ df_contextual = pd.read_csv("../data/contextual.csv")
 
 # merge our filtered dataset with contextual data
 df_subset_merged = df_subset.merge(df_contextual, on=["uuid", "source", "orig_id"])
-df_subset_merged['count_per_country'] = df_subset_merged.groupby("country").transform("size")
 
-# keep the required columns
-df_to_download = df_subset_merged[["uuid", "source", "orig_id", "city_lat", "city_lon", "city", "country", "count_per_country", "iso3"]]
-# save the file
+# filter only the rows during `day`
+df_subset_merged = df_subset_merged[df_subset_merged["lighting_condition"] == "day"]
+df_subset_merged["lighting_condition"].unique()
+
+# keep the three required columns
+df_to_download = df_subset_merged[["uuid", "source", "orig_id", "city", "country", "iso3"]]
+# save the df_subset_merged
 df_to_download.to_csv("../data/imgs/sampled.csv")

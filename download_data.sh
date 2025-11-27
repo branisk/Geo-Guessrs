@@ -3,7 +3,7 @@ wget -nc "https://huggingface.co/datasets/NUS-UAL/global-streetscapes/resolve/ma
 cd download
 python subset_download.py
 python download_jpegs.py
-python download_mly_points.py
+# python download_mly_points.py # get points.csv file from google drive instead
 python get_img_paths.py
 python adaptive_partition.py
 cd ..

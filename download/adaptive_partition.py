@@ -84,8 +84,8 @@ def latlon_to_cellid(lat: float, lon: float):
     return None
 if __name__=="__main__":
     max_level = 25
-    t1 = 100
-    t2 = 5
+    t1 = 10000
+    t2 = 1000
     
     sampled_df = pd.read_csv('../data/imgs/sampled.csv', index_col=0)
     if 'lat' in sampled_df.columns and 'lon' in sampled_df.columns:
