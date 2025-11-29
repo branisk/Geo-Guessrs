@@ -29,7 +29,7 @@ pip install -r requirements.txt
 - `cd /workspace` - this is the folder that will persist even if you terminate a pod (to save money between sessions)
 - Download miniconda: `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
 - Install miniconda: `bash Miniconda3-latest-Linux-x86_64.sh`
-    - As you go through the wizard, when prompted, tell the installer wizard to install conda in /workspace/miniconda
+    - As you go through the wizard, when prompted, tell the installer wizard to install conda in `/workspace/miniconda`
     - When asked whether to update your shell profile to automatically initialize conda, say no.
 - Register the conda command line tool: `source /workspace/miniconda/etc/profile.d/conda.sh`
 - Create a conda environment as per the environment.yaml file: `conda env create -f environment.yaml`
