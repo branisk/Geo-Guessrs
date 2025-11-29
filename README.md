@@ -25,6 +25,12 @@ pip install -r requirements.txt
 - Use the following pod template: `Runpod Pytorch 2.4.0 runpod/pytorch:2.4.0-py3.11-cuda12.4.1-devel-ubuntu22.04`
 - Configure the pod with your volume and your desired GPU (we used A40).
 
+### Data in Runpod
+
+- wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=1DnWRgtedBkLx2SmhxoCUnLusRbAolxX_' -O points.csv
+- wget https://huggingface.co/datasets/NUS-UAL/global-streetscapes/resolve/main/data/simplemaps.csv?download=true -O simplemaps.csv
+- wget https://huggingface.co/datasets/NUS-UAL/global-streetscapes/resolve/main/data/contextual.csv?download=true -O contextual.csv
+
 ### Set up conda
 - `cd /workspace` - this is the folder that will persist even if you terminate a pod (to save money between sessions)
 - Download miniconda: `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
