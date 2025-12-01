@@ -87,6 +87,12 @@ def latlon_to_cellid(lat: float, lon: float, max_level: int, final_cells: set):
 
     return None
 
+def cellid_to_latlon(cell_id: int):
+    """Get the center coordinate of a cell_id"""
+    cell_id_obj = CellId(cell_id)
+    latlon = cell_id_obj.to_lat_lng()
+    return latlon.lat().degrees, latlon.lng().degrees
+
 def parse_args():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser()
@@ -131,6 +137,7 @@ def main():
         lambda row: latlon_to_cellid(row['lat'], row['lon'], max_level, final_cells),
         axis=1
     )
+    city_df[['cell_lat', 'cell_lon']] = city_df['s2_cell_id'].map(cellid_to_latlon).apply(pd.Series)
 
     # Remove null cell_ids
     city_df.dropna(subset=['s2_cell_id'], inplace=True)
