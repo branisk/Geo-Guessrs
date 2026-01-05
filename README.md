@@ -1,5 +1,11 @@
 # Geo-Guessrs
 
+## 📄 Research Paper
+
+[![Paper Preview](./report_page1.jpg)](./report.pdf)
+
+**[Click to download full paper (PDF)](./report.pdf)**
+
 ## Quick Links
 
 - **Homepage**: https://ual.sg/project/global-streetscapes/
